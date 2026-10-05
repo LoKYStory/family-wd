@@ -58,7 +58,7 @@ body {
   font-weight: 400;
   letter-spacing: 1px;
 }
-.couple-name {
+  .couple-name {
   font-size: 38px;
   white-space: nowrap;
 }
@@ -68,7 +68,7 @@ body {
   color: #aaa;
   margin: 0 8px;
 }
-  
+
 .and {
   font-family: 'DM Serif Display', serif;
   font-style: italic;
@@ -341,6 +341,28 @@ body {
   font-size: 13px;
   letter-spacing: 1px;
 }
+
+/* 배경음악 버튼 */
+.music-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 9999;
+
+  padding: 8px 12px;
+  border: 1px solid rgba(120, 110, 100, 0.35);
+  border-radius: 20px;
+
+  background: rgba(255, 253, 249, 0.88);
+  color: #777;
+
+  font-family: 'Noto Serif KR', serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+}
   
 </style>
 </head>
@@ -381,12 +403,10 @@ body {
 
     <div class="invitation">
       수많은 날들 속에서 서로를 만나<br>
-      같은 곳을 바라보게 되었습니다.<br>
-      <br>
+      같은 곳을 바라보게 되었습니다.<br><br>
       이제 서로의 가장 가까운 사람이 되어<br>
       앞으로의 모든 계절을 함께하려 합니다.<br><br>
-      저희의 새로운 시작을 축복해 주세요
-      <br><br>
+      저희의 새로운 시작을 축복해 주세요<br><br>
     </div>
 
   </section>
@@ -451,7 +471,7 @@ body {
       </div>
 
       <div class="gallery-box wide">
-        <img src="G3F.png" alt="Our Moment 03">
+        <img src="GF3.png" alt="Our Moment 03">
       </div>
 
       <div class="gallery-box">
@@ -684,5 +704,51 @@ function copyAccount(number) {
 
 </script>
 
+<!-- 배경음악 -->
+<audio id="bgm" src="wdsong1.mp3" autoplay loop preload="auto"></audio>
+
+<button id="musicBtn" class="music-btn" onclick="toggleMusic()">
+  ♫ ON
+</button>
+
+<script>
+const bgm = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicBtn');
+
+bgm.volume = 0.45;
+
+function updateMusicButton() {
+  musicBtn.textContent = bgm.paused ? '♫ OFF' : '♫ ON';
+}
+
+function startMusic() {
+  if (!bgm.paused) return;
+
+  bgm.play()
+    .then(updateMusicButton)
+    .catch(() => {
+      musicBtn.textContent = '♫ OFF';
+    });
+}
+
+function toggleMusic() {
+  if (bgm.paused) {
+    bgm.play().then(updateMusicButton);
+  } else {
+    bgm.pause();
+    updateMusicButton();
+  }
+}
+
+/* 페이지가 열리자마자 우선 자동재생 시도 */
+startMusic();
+
+/* 자동재생이 차단된 브라우저는
+   사용자의 첫 행동과 동시에 재생 */
+['touchstart', 'touchmove', 'pointerdown', 'click'].forEach(event => {
+  document.addEventListener(event, startMusic, { once: true });
+});
+</script>
+  
 </body>
 </html>
