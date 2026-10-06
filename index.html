@@ -363,6 +363,30 @@ body {
   cursor: pointer;
   backdrop-filter: blur(5px);
 }
+
+/* 사진 더보기 */
+.more-photos {
+  display: none;
+  grid-column: span 2;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.more-photos.open {
+  display: grid;
+}
+
+.more-photo-button {
+  margin-top: 25px;
+  padding: 12px 25px;
+  border: 1px solid #cfc8be;
+  background: transparent;
+  color: #777;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
   
 </style>
 </head>
@@ -482,6 +506,22 @@ body {
         <img src="G5.png" alt="Our Moment 05">
       </div>
 
+<div id="morePhotos" class="more-photos">
+
+  <div class="gallery-box">
+    <img src="G6.png" alt="Our Moment 06">
+  </div>
+
+  <div class="gallery-box">
+    <img src="G7.png" alt="Our Moment 07">
+</div>
+
+  <button id="morePhotoButton"
+        class="more-photo-button"
+        onclick="togglePhotos()">
+  ＋ 사진 더보기
+</button>
+      
     </div>
 
   </section>
@@ -748,6 +788,21 @@ startMusic();
 ['touchstart', 'touchmove', 'pointerdown', 'click'].forEach(event => {
   document.addEventListener(event, startMusic, { once: true });
 });
+
+  
+  function togglePhotos() {
+  const photos = document.getElementById('morePhotos');
+  const button = document.getElementById('morePhotoButton');
+
+  photos.classList.toggle('open');
+
+  if (photos.classList.contains('open')) {
+    button.textContent = '－ 접기';
+  } else {
+    button.textContent = '＋ 사진 더보기';
+  }
+}
+  
 </script>
   
 </body>
